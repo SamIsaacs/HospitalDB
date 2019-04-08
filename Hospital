@@ -1,0 +1,82 @@
+--
+-- Create the tables
+--
+CREATE TABLE hospital (
+	hid char(4) PRIMARY KEY,
+	hname varchar2(25),
+	haddress varchar2(50)
+);
+--
+CREATE TABLE patient (
+	pssn char(9),
+	pfirstname varchar2(25),
+	plastname varchar2(25),
+	phonenum char(10),
+	paddress varchar2(50),
+	admitdate date,
+	hid char(4),
+	dname varchar2(15),
+	rnum number(3)
+);
+--
+CREATE TABLE doctor (
+	dssn char(9),
+	dlastname varchar(25),
+	specialty varchar2(15),
+	depname varchar2(15),
+);
+--
+CREATE TABLE nurse (
+	nssn char(9),
+	nfirstname varchar2(25),
+	nlastname varchar2(25),
+);
+--
+CREATE TABLE department (
+	hid char(4),
+	dname varchar2(15),
+	floornum number(1),
+	primary key(dhid, dname)
+);
+--
+CREATE TABLE room (
+	hid char(4),
+	dname varchar2(15),
+	rnum number(3),
+	rtype varchar2 (15),
+	rpssn char(9),
+	rdname varchar2(15),
+	primary key (rhid, dname, rnum)
+);
+--
+CREATE TABLE prescribedmedicine (
+	pssn char(9),
+	medicine char(20),
+	primary key (pssn, medicine)
+);
+--
+CREATE TABLE assigned_to (
+	nssn char(9),
+	hid char(4),
+	dname varchar2(15),
+	rnum number(3),
+	primary key(nssn, hid, dnum, rnum)
+);
+--
+-- Add the foreign keys
+--
+ALTER TABLE patient
+ADD FOREIGN KEY (dname, phid) references department(dname, hid)
+Deferrable initally deferred;
+--
+ALTER TABLE room
+ADD FOREIGN KEY (rpssn) references patient(pssn)
+Deferrable initally deferred;
+--
+ALTER TABLE department
+ADD FOREIGN KEY (dhid) references hospital(hid)
+Deferrable initially deferred;
+--
+ALTER TABLE doctor
+ADD FOREIGN KEY (
+	
